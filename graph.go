@@ -87,7 +87,7 @@ func (graph *Graph) ClosestVertex(position Position) (Position, float64) {
 	return closestPosition, minimum
 }
 
-func (graph *Graph) ShortestPath(start Position, end Position) (Path, error) {
+func (graph *Graph) ShortestPath(start Position, end Position) (Path, float64, error) {
 	dist := make(map[string]float64)
 	prev := make(map[string]string)
 	visited := make(map[string]bool)
@@ -144,7 +144,7 @@ func (graph *Graph) ShortestPath(start Position, end Position) (Path, error) {
 	var path Path
 
 	if len(finalPath) == 0 {
-		return path, fmt.Errorf("no route was found")
+		return path, 0, fmt.Errorf("no route was found")
 	}
 
 	for _, stringCords := range finalPath {
@@ -153,16 +153,16 @@ func (graph *Graph) ShortestPath(start Position, end Position) (Path, error) {
 		var err error
 		newPos[0], err = strconv.ParseFloat(pieces[0], 64)
 		if err != nil {
-			return path, fmt.Errorf("error parsing to float %s", pieces[0])
+			return path, 0, fmt.Errorf("error parsing to float %s", pieces[0])
 		}
 		newPos[1], err = strconv.ParseFloat(pieces[1], 64)
 		if err != nil {
-			return path, fmt.Errorf("error parsing to float %s", pieces[0])
+			return path, 0, fmt.Errorf("error parsing to float %s", pieces[0])
 		}
 		path = append(path, newPos)
 	}
 
-	return path, nil
+	return path, dist[end.Key()], nil
 }
 
 func (fc *FeatureCollection) ToTopology(precision float64) Topology {

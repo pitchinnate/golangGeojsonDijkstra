@@ -1,6 +1,6 @@
 package geojsonDikstra
 
-func (fc *FeatureCollection) FindPath(start Position, end Position, precision float64) (Path, error) {
+func (fc *FeatureCollection) FindPath(start Position, end Position, precision float64) (Path, float64, error) {
 	topology := fc.ToTopology(precision)
 	graph := topology.Preprocess()
 
@@ -9,7 +9,7 @@ func (fc *FeatureCollection) FindPath(start Position, end Position, precision fl
 	closestEnd, _ := graph.ClosestVertex(end)
 
 	// Find the shortest path from start to end
-	path, err := graph.ShortestPath(closestStart, closestEnd)
+	path, distance, err := graph.ShortestPath(closestStart, closestEnd)
 
-	return path, err
+	return path, distance, err
 }

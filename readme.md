@@ -43,10 +43,11 @@ featureCollection := FeatureCollection{
         Feature{Type: "Feature", Geometry: Geometry{Type: "LineString", Coordinates: []Position{Position{-84.396213, 33.792908}, Position{-84.396536, 33.792908}}}},
     },
 }
-path, err := featureCollection.FindPath(Position{-84.396863, 33.792908}, Position{-84.396535, 33.792578}, 0.00001)
+path, distance, err := featureCollection.FindPath(Position{-84.396863, 33.792908}, Position{-84.396535, 33.792578}, 0.00001)
 
 // path should come back as an array of coordinates
 // [[-84.39654,33.79258],[-84.39654,33.79281],[-84.39654,33.79291],[-84.39686,33.79291]]
+// distance should come back as a float64 measure of how far you traveled (in meters)
 ```
 
 License
